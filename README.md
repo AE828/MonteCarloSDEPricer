@@ -1,24 +1,23 @@
 # Monte Carlo SDE Option Pricer
 
-A C++ option pricing engine that simulates stock price paths using stochastic differential equations (SDEs) and prices options via Monte Carlo methods. Built from scratch with no external libraries — just the C++ standard library.
-
+A C++ option pricing engine that simulates stock price paths using stochastic differential equations (SDEs) and prices options via Monte Carlo methods. 
 ## What it does
 
 This project prices European and exotic options by simulating thousands of possible future stock price paths, then averaging the payoffs. It implements three models of how stock prices move, two numerical methods for simulating those paths, and validates everything against known closed-form solutions.
 
 ## Visualisation
 
-The C++ engine outputs structured JSON, which is rendered by a standalone HTML viewer. All charts below are displaying C++ output — no reimplementation.
+The C++ engine outputs structured JSON, which is rendered by a standalone HTML viewer. All charts below are displaying C++ output.
 
-**Simulated price paths** — 15 paths per model, showing how each SDE evolves over time:
+**Simulated price paths** : 15 paths per model, showing how each SDE evolves over time:
 
 ![Price paths for GBM, Heston, and SABR models](docs/paths.png)
 
-**Convergence analysis** — Monte Carlo error shrinks as the number of time steps increases (log-log scale). Milstein (orange) converges faster than Euler-Maruyama (blue):
+**Convergence analysis** : Monte Carlo error shrinks as the number of time steps increases (log-log scale). Milstein (orange) converges faster than Euler-Maruyama (blue):
 
 ![Strong convergence: Euler-Maruyama vs Milstein](docs/convergence.png)
 
-**Implied volatility smile** — comparing model-implied vol against real SPY market data across 17 strikes. The Heston model (green) captures the equity skew that flat-vol GBM (blue) misses:
+**Implied volatility smile** : comparing model-implied vol against real SPY market data across 17 strikes. The Heston model (green) captures the equity skew that flat-vol GBM (blue) misses:
 
 ![SPY implied volatility smile](docs/market.png)
 
@@ -40,16 +39,16 @@ The C++ engine outputs structured JSON, which is rendered by a standalone HTML v
 
 ## Models
 
-- **Geometric Brownian Motion (GBM)** — the standard model behind Black-Scholes, assumes constant volatility
-- **Heston** — stochastic volatility model where volatility itself follows a random process, producing the skew/smile seen in real markets
-- **SABR** — another stochastic volatility model widely used for interest rate and FX derivatives
+- **Geometric Brownian Motion (GBM)** : the standard model behind Black-Scholes, assumes constant volatility
+- **Heston** : stochastic volatility model where volatility itself follows a random process, producing the skew/smile seen in real markets
+- **SABR** : another stochastic volatility model widely used for interest rate and FX derivatives
 
 ## Methods
 
-- **Euler-Maruyama** — first-order discretisation scheme for SDEs
-- **Milstein** — higher-order scheme that adds a correction term, improving accuracy for the same number of time steps
-- **Antithetic variates** — variance reduction technique that pairs each random path with its mirror image, cutting noise without extra simulations
-- **Cholesky decomposition** — used to generate correlated random variables for the 2D models (Heston, SABR)
+- **Euler-Maruyama** : first-order discretisation scheme for SDEs
+- **Milstein** : higher-order scheme that adds a correction term, improving accuracy for the same number of time steps
+- **Antithetic variates** : variance reduction technique that pairs each random path with its mirror image, cutting noise without extra simulations
+- **Cholesky decomposition** : used to generate correlated random variables for the 2D models (Heston, SABR)
 
 ## Payoffs
 
@@ -79,7 +78,7 @@ monte-carlo-sde-pricer/
 
 ## Build and run
 
-Requires a C++17 compiler. No external dependencies.
+Requires a C++17 compiler.
 
 ```bash
 # Core pricer — prints pricing results to terminal
@@ -99,10 +98,10 @@ You can also paste `src/pricer.cpp` directly into [OnlineGDB](https://www.online
 
 ## Design choices
 
-- **Single-file architecture** — each version compiles with one command, no build system or headers to manage. Easy to read, easy to share, easy to verify.
-- **OOP class hierarchy with virtual dispatch** — models, schemes, and payoffs are interchangeable via base class pointers, so adding a new model or payoff is one class definition.
-- **Template policy pattern** — the Monte Carlo engine is templated on the discretisation scheme, so the compiler can inline the hot loop for each scheme rather than going through virtual dispatch on every time step.
-- **C++ generates data, HTML displays it** — the visualisation is a pure viewer of C++ output, not a reimplementation. The pricer writes structured JSON; the HTML page renders it as interactive charts.
+- **Single-file architecture** : each version compiles with one command, no build system or headers to manage. Easy to read, easy to share, easy to verify.
+- **OOP class hierarchy with virtual dispatch** : models, schemes, and payoffs are interchangeable via base class pointers, so adding a new model or payoff is one class definition.
+- **Template policy pattern** : the Monte Carlo engine is templated on the discretisation scheme, so the compiler can inline the hot loop for each scheme rather than going through virtual dispatch on every time step.
+- **C++ generates data, HTML displays it** : the visualisation is a pure viewer of C++ output, not a reimplementation. The pricer writes structured JSON; the HTML page renders it as interactive charts.
 
 ## Sample output
 
