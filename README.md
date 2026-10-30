@@ -52,7 +52,7 @@ The C++ engine outputs structured JSON, which is rendered by a standalone HTML v
 
 ## Payoffs
 
-European call, European put, digital (binary) call, and Asian (arithmetic average) call — all implemented as interchangeable classes.
+European call, European put, digital (binary) call, and Asian (arithmetic average) call (all implemented as interchangeable classes).
 
 ## Project structure
 
